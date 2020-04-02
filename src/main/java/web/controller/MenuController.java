@@ -103,17 +103,21 @@ public class MenuController {
         return newMenu;/*返回添加的对象*/
     }
 
+    /**
+     * 修改方法，并且返回当前修改菜单的所有父菜单
+     *
+     * @param menu
+     * @return
+     */
     @RequestMapping("/update")
     @ResponseBody
-    public Map<String, Menu> update(Menu menu) {
+    public List<String> update(Menu menu) {
         menuService.update(menu);/*修改后返回其父菜单，用于打开父菜单*/
         SqlParam sqlParam = new SqlParam();
         sqlParam.setCloum("id");
-        sqlParam.setValue(String.valueOf(menu.getParent()));
-        Menu menuResult = menuService.findOne(sqlParam);
-        HashMap<String, Menu> map = new HashMap<>();/*如果直接返回null的话，ajax的success方法不会执行*/
-        map.put("menu", menuResult);
-        return map;
+        sqlParam.setValue(String.valueOf(menu.getParent())); /*如果直接返回null的话，ajax的success方法不会执行*/
+        List<String> allParentName = menuService.findAllParent(sqlParam);/*list中只添加了名字，可以自行添加整个菜单*/
+        return allParentName;
     }
 
     /**

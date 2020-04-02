@@ -248,8 +248,8 @@
                             success: function (result) {
                                 $page.updateModel = false;
                                 $page.getFirstMenuData($page.page, $page.pageSize);/*修改完成后,刷新数据*/
-                                if (result.menu != null) {/*result返回的是修改菜单的父菜单*/
-                                    $page.getDelInfo($page.menuData, result.menu.name);/*刷新数据后，打开修改后的children，添加一个属性*/
+                                if (result.length > 0) {/*result返回的是修改菜单的父菜单*/
+                                    $page.getDelInfo($page.menuData, result);/*刷新数据后，打开修改后的children，添加一个属性*/
                                 } else {
                                     console.log('一级菜单不用展开')
                                 }
@@ -296,7 +296,6 @@
                     traditional: true,//防止深度序列化
                     async: false,/*取消异步加载*/
                     success: function (result) {
-                        console.log(result)
                         $page.menuData = result.list;
                         $page.total = result.totalRows;
                         $page.page = result.page/*处理一个小bug*/
@@ -304,13 +303,15 @@
                 });
             },
 
-            getDelInfo: function (data, name) {//递归菜单，用于找出当前修改的是哪个子菜单，并且把它打开
+            getDelInfo: function (data, parentNameList) {//递归菜单，用于找出当前修改的是哪个子菜单，并且把它打开
                 for (let i = 0; i < data.length; i++) {
                     if (data[i].children && data[i].children.length > 0) {/*传过来的都是当前修改菜单的父菜单*/
-                        if (data[i].name == name) {
-                            data[i] = $.extend({}, data[i], {_showChildren: true});
+                        for (let j = 0; j < parentNameList.length; j++) {
+                            if (data[i].name == parentNameList[j]) {
+                                data[i] = $.extend({}, data[i], {_showChildren: true});
+                            }
                         }
-                        this.getDelInfo(data[i].children, name)
+                        this.getDelInfo(data[i].children, parentNameList)
                     }
                 }
 

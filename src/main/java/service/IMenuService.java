@@ -24,4 +24,6 @@ public interface IMenuService {
     void update(Menu menu);
 
     Menu findOne(SqlParam sqlParam);
+
+    List<String> findAllParent(SqlParam sqlParam);
 }

@@ -15,7 +15,7 @@ public class MenuQuery extends Paging {
         if (StringUtils.hasLength(name)) {
             sb.append(" and name like '%" + name + "%'");
         }
-        if (StringUtils.hasLength(time)) {
+        if (StringUtils.hasLength(time)) {/*时间处理特殊*/
             if (!",".equals(time)) {/*处理区间段是空，也会有个，号的*/
                 String start_time = time.split(",")[0];
                 String end_time = time.split(",")[1];

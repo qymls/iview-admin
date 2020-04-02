@@ -10,6 +10,7 @@ import util.PageUtil;
 import util.SqlParam;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -123,6 +124,42 @@ public class MenuServiceImpl implements IMenuService {
     public Menu findOne(SqlParam sqlParam) {
         return menuDao.findOne(sqlParam);
     }
+
+    /**
+     * 获取一个子菜单所有的父菜单
+     *
+     * @param sqlParam
+     * @return
+     */
+    @Override
+    public List<String> findAllParent(SqlParam sqlParam) {
+        List<String> menuListParent = new LinkedList<>();
+        Menu menu = menuDao.findOne(sqlParam);
+        if (menu != null) {
+            menuListParent.add(menu.getName());
+            getPartnt(menu.getParent(), sqlParam, menuListParent);
+        }
+        return menuListParent;
+    }
+
+    /**
+     * 递归查找所有的父菜单,装到list中
+     *
+     * @param parent
+     * @param sqlParam
+     * @param list
+     */
+    public void getPartnt(Long parent, SqlParam sqlParam, List<String> list) {
+        sqlParam.setCloum("id");
+        sqlParam.setValue(String.valueOf(parent));
+        Menu menu = menuDao.findOne(sqlParam);
+        if (menu != null) {
+            list.add(menu.getName());
+            getPartnt(menu.getParent(), sqlParam, list);
+        }
+
+    }
+
 
     /**
      * 删除菜单
