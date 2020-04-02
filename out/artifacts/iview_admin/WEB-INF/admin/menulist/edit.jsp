@@ -32,16 +32,16 @@
             </Form-Item>
             <input type="hidden" v-model="formValidate.parent"/><%--父菜单的id--%>
             <Form-Item label="菜单名称" prop="name">
-                <i-Input v-model="formValidate.name" placeholder="请输入菜单名"></i-Input>
+                <i-Input v-model="formValidate.name" placeholder="请输入菜单名" @on-blur="getEnglishName"></i-Input>
             </Form-Item>
             <Form-Item label="菜单图标" prop="icon">
                 <i-Input v-model="formValidate.icon" placeholder="请输入菜单图标"></i-Input>
             </Form-Item>
-            <Form-Item label="页面地址" prop="url">
-                <i-Input v-model="formValidate.url" placeholder="请输入页面地址"></i-Input>
-            </Form-Item>
             <Form-Item label="英文名称" prop="englishName">
                 <i-Input v-model="formValidate.englishName" placeholder="请输入英文名称"></i-Input>
+            </Form-Item>
+            <Form-Item label="页面地址" prop="url">
+                <i-Input v-model="formValidate.url" placeholder="请输入页面地址"></i-Input>
             </Form-Item>
             <Form-Item label="菜单描述" prop="description">
                 <i-Input v-model="formValidate.description" type="textarea" :autosize="{minRows: 2,maxRows: 20}"
@@ -103,21 +103,15 @@
                 parentMenu: '无',
                 ruleValidate: {
                     name: [
-                        {validator: nameplates, trigger: 'change'}/*异步验证*/
+                        {required: true, validator: nameplates, trigger: 'change'}/*异步验证*/
                     ],
                     icon: [
                         {required: true, message: '图标不能为空', trigger: 'blur'},
                     ],
-                    url: [
-                        {required: true, message: '菜单地址不能为空', trigger: 'blur'}
-                    ],
                     englishName: [
                         {required: true, message: '英文名称不能为空', trigger: 'blur'}
                     ],
-                    description: [
-                        {required: true, message: '请输入描述', trigger: 'blur'},
-                        {type: 'string', min: 2, message: '至少两个字', trigger: 'blur'}
-                    ]
+
                 },
                 tempAppendData: null,
                 tempRemoveData: null,
@@ -198,6 +192,30 @@
             this.data5[0].children = Data
         },
         methods: {
+            getEnglishName() {/*通过菜单名称，自动翻译成英文*/
+                var $apge = this;
+                if (this.formValidate.name != '') {/*不能为空*/
+                    $.ajax({
+                        type: "POST",
+                        contentType: "application/x-www-form-urlencoded",
+                        url: "Admin/Menu/getEnglishNameByBaiduApi",
+                        data: {"name": this.formValidate.name},
+                        dataType: 'json',
+                        async: false,/*取消异步加载*/
+                        success: function (result) {
+                            if (JSON.parse(result).trans_result != null) {
+                                let englishName = JSON.parse(result).trans_result[0].dst;
+                                $apge.formValidate.englishName = englishName;
+                            } else {
+                                console.log(result)
+                            }
+
+                        }
+                    });
+                } else {
+                    console.log("我是空,百度翻译不执行")
+                }
+            },
             getRepetitionName(value) {/*验证菜单名称是否重复*/
                 let data;
                 $.ajax({

@@ -112,6 +112,8 @@ public class MenuDaoImpl implements IMenuDao {
 
     @Override
     public void update(Menu menu) {
+        String sql = "update menu set name =? , label = ? , icon = ?,english_name = ? , url= ?,description = ? where id = ?";
+        jdbcTemplate.update(sql, menu.getName(), menu.getName(), menu.getIcon(), menu.getEnglishName(), menu.getUrl(), menu.getDescription(), menu.getId());
     }
 
 

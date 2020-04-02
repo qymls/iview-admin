@@ -1,5 +1,6 @@
 package query;
 
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import org.springframework.util.StringUtils;
 import util.Paging;
 
@@ -14,10 +15,13 @@ public class MenuQuery extends Paging {
         if (StringUtils.hasLength(name)) {
             sb.append(" and name like '%" + name + "%'");
         }
-       /* if (StringUtils.hasLength(time)) {
-            System.out.println(time);
-
-        }*/
+        if (StringUtils.hasLength(time)) {
+            if (!",".equals(time)) {/*处理区间段是空，也会有个，号的*/
+                String start_time = time.split(",")[0];
+                String end_time = time.split(",")[1];
+                sb.append(" and create_time > '" + start_time + "' and create_time < '" + end_time + "'");
+            }
+        }
         return sb.toString();
     }
 
@@ -34,7 +38,6 @@ public class MenuQuery extends Paging {
     }
 
     public void setTime(String time) {
-        System.out.println(time);
         this.time = time;
     }
 }

@@ -1,6 +1,7 @@
 package web.controller;
 
 
+import com.baidu.translate.demo.TransApi;
 import domain.Menu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,10 +10,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import query.MenuQuery;
 import service.IMenuService;
+import util.ConstantApi;
 import util.PageUtil;
 import util.SqlParam;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/Admin/Menu")
@@ -24,12 +28,23 @@ public class MenuController {
         this.menuService = menuService;
     }
 
+    /**
+     * 初始化的菜单
+     *
+     * @return
+     */
     @RequestMapping("/findAll")
     @ResponseBody
     public List<Menu> findAll() {
         return menuService.findAll();
     }
 
+    /**
+     * 菜单管理查询的菜单
+     *
+     * @param menuQuery
+     * @return
+     */
     @RequestMapping("/findAllMenu")
     @ResponseBody
     public PageUtil<Menu> findAllMenu(MenuQuery menuQuery) {
@@ -44,6 +59,12 @@ public class MenuController {
         return "WEB-INF/views/menu/menu_add";
     }
 
+    /**
+     * 查询菜单名称是否重复
+     *
+     * @param name
+     * @return
+     */
     @RequestMapping("/findByName")
     @ResponseBody
     public Menu findOne(String name) {
@@ -53,7 +74,12 @@ public class MenuController {
         return menuService.findOne(sqlParam);
     }
 
-
+    /**
+     * 删除菜单
+     *
+     * @param ids
+     * @return
+     */
     @RequestMapping("/delete")
     @ResponseBody
     public String delete(Long[] ids) {
@@ -64,6 +90,12 @@ public class MenuController {
         return "";
     }
 
+    /**
+     * 添加菜单
+     *
+     * @param menu
+     * @return
+     */
     @RequestMapping("/save")
     @ResponseBody
     public Menu save(Menu menu) {
@@ -72,15 +104,40 @@ public class MenuController {
     }
 
     @RequestMapping("/update")
-    public String update(Menu menu) {
-        menuService.update(menu);
-        return "redirect:findAll";
+    @ResponseBody
+    public Map<String, Menu> update(Menu menu) {
+        menuService.update(menu);/*修改后返回其父菜单，用于打开父菜单*/
+        SqlParam sqlParam = new SqlParam();
+        sqlParam.setCloum("id");
+        sqlParam.setValue(String.valueOf(menu.getParent()));
+        Menu menuResult = menuService.findOne(sqlParam);
+        HashMap<String, Menu> map = new HashMap<>();/*如果直接返回null的话，ajax的success方法不会执行*/
+        map.put("menu", menuResult);
+        return map;
     }
 
+    /**
+     * 到菜单新加和删除界面
+     *
+     * @return
+     */
     @RequestMapping("/forwardMenuEdit")
     public String forwardMenuEdit() {/*返回到添加页面*/
         return "WEB-INF/admin/menulist/edit";
     }
 
+    /**
+     * 百度翻译Api
+     *
+     * @param name
+     * @return
+     */
+    @RequestMapping("/getEnglishNameByBaiduApi")
+    @ResponseBody
+    public String getEnglishNameByBaiduApi(String name) {
+        TransApi api = new TransApi(ConstantApi.BaiduFanyi_APP_ID, ConstantApi.BaiduFanyi_SECURITY_KEY);
+        String transResult = api.getTransResult(name, "auto", "en");
+        return transResult;
+    }
 
 }
