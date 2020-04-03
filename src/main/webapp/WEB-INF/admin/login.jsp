@@ -5,11 +5,12 @@
 %>
 <html>
 <head>
+    <base href="<%=basePath%>">
     <title>首页</title>
-    <link rel="stylesheet" type="text/css" href="<%=basePath%>iview/iview.css">
-    <script src="<%=basePath%>iview/vue.js"></script>
-    <script src="<%=basePath%>iview/iview.min.js"></script>
-    <script src="<%=basePath%>iview/jquery-3.4.1.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="iview/iview.css">
+    <script src="iview/vue.js"></script>
+    <script src="iview/iview.min.js"></script>
+    <script src="iview/jquery-3.4.1.min.js"></script>
 
     <style>
         body, #app {
@@ -88,16 +89,15 @@
                     if (valid) {
                         $.ajax({
                             type: "POST",
-                            contentType: "application/json",
-                            url: "<%=basePath%>LoginServlet",
+                            contentType: "application/x-www-form-urlencoded",
+                            url: "Admin/login",
                             data: {
-                                "methodName": "login",
                                 "username": this.formInline.user,
                                 "password": this.formInline.password
                             },
                             dataType: 'json',
                             success: function (result) {
-                                $page.$Message.success(result);
+                                window.location.href = "Admin/admin";
                             }
                         });
 
