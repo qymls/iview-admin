@@ -288,6 +288,8 @@ var vue = new Vue({
         personClick: function (name) {
             if (name == 'logout') {
                 console.log('退出登录')
+            } else if (name == 'refresh') {
+                window.location.reload();/*刷新当前页*/
             } else {
                 console.log(name)
                 this.menuSelect("首页")//相当于点击了这个页面

@@ -12,6 +12,7 @@
         width: 100%;
     }
 
+    /*cursor: pointer;带上a标签的属性*/
 </style>
 <div id="app">
 
@@ -20,6 +21,10 @@
             <Icon type="ios-list-box-outline" size="20"></Icon>
             {{title}}
         </p>
+        <Tooltip content="返回菜单管理界面" transfer slot="extra" >
+            <Icon type="md-return-left" style="font-size: 23px;margin-right: 20px;cursor: pointer;"
+                  @click="returnMenu"/>
+        </Tooltip>
         <Row justify="center" align="middle">
             <Tree :data="data5" :render="renderContent" class="demo-tree-render"></Tree>
         </Row>
@@ -192,6 +197,9 @@
             this.data5[0].children = Data
         },
         methods: {
+            returnMenu() {/*返回菜单界面*/
+                window.location.href = 'Admin/Menu/forwardMenuList';/*返回菜单管理界面*/
+            },
             getEnglishName() {/*通过菜单名称，自动翻译成英文*/
                 var $apge = this;
                 if (this.formValidate.name != '') {/*不能为空*/

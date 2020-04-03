@@ -33,7 +33,7 @@
                     </Form-Item>
 
                     <Form-Item>
-                        <i-Button type="primary" @click="handleSubmit('formInline')">查找</i-Button>
+                        <i-Button type="info" @click="handleSubmit('formInline')">查找</i-Button>
                     </Form-Item>
                 </i-Form>
             </i-col>
@@ -253,6 +253,7 @@
                                 } else {
                                     console.log('一级菜单不用展开')
                                 }
+                                $page.$refs[name].resetFields();/*清除model的表单数据*/
                                 $page.$Message.success('修改数据成功');
                             }
                         });

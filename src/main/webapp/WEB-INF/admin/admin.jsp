@@ -505,6 +505,7 @@
                             </a>
                             <Dropdown-Menu slot="list">
                                 <Dropdown-Item name="个人中心">个人中心</Dropdown-Item>
+                                <Dropdown-Item name="refresh">全局刷新</Dropdown-Item>
                                 <Dropdown-Item name="logout">退出登录</Dropdown-Item>
                             </Dropdown-Menu>
                         </Dropdown>

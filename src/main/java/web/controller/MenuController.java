@@ -128,6 +128,11 @@ public class MenuController {
         return "WEB-INF/admin/menulist/edit";
     }
 
+    @RequestMapping("/forwardMenuList")
+    public String forwardMenuList() {/*返回到菜单List界面*/
+        return "WEB-INF/admin/menulist/menu_data";
+    }
+
     /**
      * 百度翻译Api
      *

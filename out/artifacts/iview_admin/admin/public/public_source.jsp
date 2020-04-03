@@ -13,7 +13,7 @@
     <style>
         #app { /*页面滑动*/
             overflow: auto;
-            height: calc(100% - 45px);
+            height: calc(100% - 100px);
         }
 
         .ivu-table { /*table自适应*/
