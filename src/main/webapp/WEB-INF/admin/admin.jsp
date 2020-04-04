@@ -504,9 +504,18 @@
                                 <Icon type="ios-arrow-down"></Icon>
                             </a>
                             <Dropdown-Menu slot="list">
-                                <Dropdown-Item name="个人中心">个人中心</Dropdown-Item>
-                                <Dropdown-Item name="refresh">全局刷新</Dropdown-Item>
-                                <Dropdown-Item name="logout">退出登录</Dropdown-Item>
+                                <Dropdown-Item name="个人中心">
+                                    <Icon type="ios-settings-outline"></Icon>
+                                    个人设置
+                                </Dropdown-Item>
+                                <Dropdown-Item divided name="refresh">
+                                    <Icon type="ios-refresh"></Icon>
+                                    全局刷新
+                                </Dropdown-Item>
+                                <Dropdown-Item divided name="logout">
+                                    <Icon type="ios-log-out"></Icon>
+                                    退出登录
+                                </Dropdown-Item>
                             </Dropdown-Menu>
                         </Dropdown>
                         <Avatar src="https://i.loli.net/2017/08/21/599a521472424.jpg"/>

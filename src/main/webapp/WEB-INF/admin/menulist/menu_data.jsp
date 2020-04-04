@@ -33,7 +33,7 @@
                     </Form-Item>
 
                     <Form-Item>
-                        <i-Button type="info" @click="handleSubmit('formInline')">查找</i-Button>
+                        <i-Button type="info" icon="ios-search" @click="handleSubmit('formInline')">查找</i-Button>
                     </Form-Item>
                 </i-Form>
             </i-col>
@@ -42,7 +42,7 @@
 
         <Row justify="center" align="middle">
             <div style="margin-top:20px">
-                <i-Table row-key="name" :columns="columns" :data="menuData" border
+                <i-Table row-key="name" :columns="columns" :data="menuData" border max-height="616"
                          @on-row-dblclick="updateModelShow"></i-Table>
             </div>
             <div style="margin: 10px;overflow: hidden">

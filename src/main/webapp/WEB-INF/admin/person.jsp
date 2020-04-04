@@ -13,6 +13,17 @@
         display: none;
     }
 
+    .setting-account-info-avatar {
+        width: 90px;
+        height: 90px;
+    }
+
+    .ivu-row-flex {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
 </style>
 <div id="app">
     <div>
@@ -41,20 +52,52 @@
                     <Tabs :animated="false" v-model="activeTab">
                         <Tab-Pane label="基本设置" name="基本设置">
                             <div style="padding-top: 20px">
-                                <i-Form ref="formInline" :model="formInline" :rules="ruleInline">
-                                    <Form-Item prop="user">
-                                        <i-Input type="text" v-model="formInline.user" placeholder="Username">
-                                            <Icon type="ios-person-outline" slot="prepend"></Icon>
-                                        </i-Input>
-                                    </Form-Item>
-                                    <Form-Item prop="password">
-                                        <i-Input type="password" v-model="formInline.password" placeholder="Password">
-                                            <Icon type="ios-lock-outline" slot="prepend"></Icon>
-                                        </i-Input>
-                                    </Form-Item>
-                                    <Form-Item>
-                                        <i-Button type="primary" @click="handleSubmit('formInline')">Signin</i-Button>
-                                    </Form-Item>
+                                <i-Form ref="formInline" autocomplete="off" :model="formInline" :rules="ruleInline"
+                                        label-position="top">
+                                    <Row class="ivu-row-flex" style="margin-left: -24px; margin-right: -24px;">
+                                        <i-col :xs="{ span: 24, order: 1 }" :sm="{ span: 24, order: 1 }"
+                                               :md="{ span: 24, order: 1 }" :lg="{ span: 24, order: 1 }"
+                                               :xl="{ span: 12, order: 2 }"
+                                               style="padding-left: 24px; padding-right: 24px;">
+                                            <Form-Item label="头像">
+                                                <div class="demo-avatar">
+                                                    <Avatar class="setting-account-info-avatar" shape="square"
+                                                            size="large"
+                                                            src="https://dev-file.iviewui.com/userinfoPDvn9gKWYihR24SpgC319vXY8qniCqj4/avatar"/>
+                                                </div>
+                                                <div class=""
+                                                     style="margin-top: 16px!important;margin-bottom: 16px!important;">
+                                                    <Upload action="//jsonplaceholder.typicode.com/posts/">
+                                                        <i-Button icon="md-camera">更改头像</i-Button>
+                                                    </Upload>
+                                                </div>
+                                            </Form-Item>
+                                        </i-col>
+                                        <i-col :xs="{ span: 24, order: 2 }" :sm="{ span: 24, order: 2 }"
+                                               :md="{ span: 24, order: 2 }" :lg="{ span: 24, order: 2 }"
+                                               :xl="{ span: 12, order: 1 }"
+                                               style="padding-left: 24px; padding-right: 24px;">
+                                            <Form-Item label="昵称" prop="nickname">
+                                                <i-Input type="text" v-model="formInline.nickname"/>
+                                            </Form-Item>
+                                            <Form-Item label="邮箱" prop="email">
+                                                <i-Input type="text" v-model="formInline.email"/>
+                                            </Form-Item>
+                                            <Form-Item label="个人介绍" prop="introduction">
+                                                <i-Input type="textarea" v-model="formInline.introduction"/>
+                                            </Form-Item>
+                                            <Form-Item label="公司" prop="company">
+                                                <i-Input type="text" v-model="formInline.company"/>
+                                            </Form-Item>
+                                            <Form-Item label="居住地" prop="address">
+                                                <i-Input type="text" v-model="formInline.address"/>
+                                            </Form-Item>
+                                            <Form-Item>
+                                                <i-Button type="primary" @click="handleSubmit('formInline')">更新基本信息
+                                                </i-Button>
+                                            </Form-Item>
+                                        </i-col>
+                                    </Row>
                                 </i-Form>
                             </div>
                         </Tab-Pane>
