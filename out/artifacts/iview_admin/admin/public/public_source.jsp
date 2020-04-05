@@ -13,7 +13,7 @@
     <style>
         #app { /*页面滑动*/
             overflow: auto;
-            height: calc(100% - 100px);
+          /*  height: calc(100% - 75px);*/
         }
 
         .ivu-table { /*table自适应*/
@@ -38,6 +38,33 @@
             100% {
                 opacity: 1
             }
+        }
+        /*美化滚动条*/
+        ::-webkit-scrollbar {
+            width: 7px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background-color: #f5f5f5;
+
+            -webkit-box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.1);
+
+            border-radius: 5px;
+
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-button {
+            background-color: #eee;
+            display: none;
+        }
+
+        ::-webkit-scrollbar-corner {
+            background-color: black;
         }
 
     </style>

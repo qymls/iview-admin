@@ -11,6 +11,9 @@
     .demo-tree-render .ivu-tree-title {
         width: 100%;
     }
+    #app { /*页面滑动*/
+        height: calc(100% - 50px);
+    }
 
     /*cursor: pointer;带上a标签的属性*/
 </style>

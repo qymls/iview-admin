@@ -7,6 +7,8 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="/admin/public/public_source.jsp" %>
+<style>
+</style>
 <div id="app">
 
     <Card>
@@ -33,7 +35,7 @@
                     </Form-Item>
 
                     <Form-Item>
-                        <i-Button type="info" @click="handleSubmit('formInline')">查找</i-Button>
+                        <i-Button type="info" icon="ios-search" @click="handleSubmit('formInline')">查找</i-Button>
                     </Form-Item>
                 </i-Form>
             </i-col>
@@ -42,7 +44,7 @@
 
         <Row justify="center" align="middle">
             <div style="margin-top:20px">
-                <i-Table row-key="name" :columns="columns" :data="menuData" border
+                <i-Table row-key="name" :columns="columns" :data="menuData" border max-height="650"
                          @on-row-dblclick="updateModelShow"></i-Table>
             </div>
             <div style="margin: 10px;overflow: hidden">
@@ -50,7 +52,7 @@
                     <Page :total="total" show-total :page-size="pageSize" :page-size-opts="[5,10,20]" :current="page"
                           show-sizer transfer show-elevator
                           @on-change="changePage" @on-page-size-change="sizeChange"
-                          style="line-height: unset"></Page>
+                          style="line-height: unset;margin-top: 10px"></Page>
                 </div>
             </div>
             <Modal title="修改菜单" v-model="updateModel" class-name="vertical-center-modal" footer-hide>
