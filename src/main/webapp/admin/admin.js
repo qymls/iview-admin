@@ -86,29 +86,34 @@ var vue = new Vue({
             }
         },
 
-        jointStr(data, param) {//拼接显示的字符集,参数，en_US,zh_CN
-            var str = "{";
+        jointStr(data, param) {//拼接显示的字符集,参数，en_US,zh_CN,以及其他
+            /*  var str = "{";*/
+            var result = {};
             if (param == "en_US") {
                 for (let i = 0; i < data.length; i++) {
-                    if (i != data.length - 1) {
-                        str += "\"" + data[i].name + "\"" + ":" + "\"" + data[i].englishName + "\"" + ",";
-                    } else {
-                        str += "\"" + data[i].name + "\"" + ":" + "\"" + data[i].englishName + "\"";
-                    }
+                    /* if (i != data.length - 1) {
+                         str += "\"" + data[i].name + "\"" + ":" + "\"" + data[i].englishName + "\"" + ",";
+                     } else {
+                         str += "\"" + data[i].name + "\"" + ":" + "\"" + data[i].englishName + "\"";
+                     }*/
+                    result[data[i].name] = data[i].englishName;
                 }
+
             } else if (param == "zh_CN") {
                 for (let i = 0; i < data.length; i++) {
-                    if (i != data.length - 1) {
-                        str += "\"" + data[i].name + "\"" + ":" + "\"" + data[i].name + "\"" + ",";
-                    } else {
-                        str += "\"" + data[i].name + "\"" + ":" + "\"" + data[i].name + "\"";
-                    }
+                    /*  if (i != data.length - 1) {
+                          str += "\"" + data[i].name + "\"" + ":" + "\"" + data[i].name + "\"" + ",";
+                      } else {
+                          str += "\"" + data[i].name + "\"" + ":" + "\"" + data[i].name + "\"";
+                      }*/
+                    result[data[i].name] = data[i].name;
                 }
             } else {
                 alert("jointStr参数无效")
             }
-            str += "}";
-            return JSON.parse(str);
+            /*str += "}";*/
+            console.log(result)
+            return result;
         },
 
         changeLang(lang) {
