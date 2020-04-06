@@ -11,6 +11,7 @@
     .demo-tree-render .ivu-tree-title {
         width: 100%;
     }
+
     #app { /*页面滑动*/
         height: calc(100% - 50px);
     }
@@ -24,7 +25,7 @@
             <Icon type="ios-list-box-outline" size="20"></Icon>
             {{title}}
         </p>
-        <Tooltip content="返回菜单管理界面" transfer slot="extra" >
+        <Tooltip content="返回菜单管理界面" transfer slot="extra">
             <Icon type="md-return-left" style="font-size: 23px;margin-right: 20px;cursor: pointer;"
                   @click="returnMenu"/>
         </Tooltip>
@@ -258,7 +259,7 @@
                             success: function (result) {
                                 newMenu = result;
                                 var data = $page.tempAppendData;
-                                var newMenuData = $.extend({}, result, {title: result.name, expand: true});/*需要为展开状态*/
+                                var newMenuData = $.extend({}, result, {title: result.name});/*需要为展开状态*/
                                 const children = data.children || [];
                                 children.push(newMenuData);
                                 data.expand = true;/*将该菜单打开*/
@@ -337,7 +338,7 @@
                         data[i] = $.extend({}, data[i], {title: data[i].name, expand: false});
                         this.getlangData(data[i].children);
                     } else {
-                        data[i] = $.extend({}, data[i], {title: data[i].name, expand: false});
+                        data[i] = $.extend({}, data[i], {title: data[i].name});
                     }
                 }
             },

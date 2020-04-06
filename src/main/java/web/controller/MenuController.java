@@ -14,6 +14,7 @@ import util.ConstantApi;
 import util.PageUtil;
 import util.SqlParam;
 
+import java.util.LinkedList;
 import java.util.List;
 
 @Controller
@@ -49,12 +50,21 @@ public class MenuController {
         return menuService.findAll(menuQuery);
     }
 
-
+    /**
+     * 获取有权限的菜单
+     *
+     * @return
+     */
     @RequestMapping("/findOne")
-    public String findOne(Model model, Long id) {
-        Menu menu = menuService.findOne(id);
-        model.addAttribute("menu", menu);
-        return "WEB-INF/views/menu/menu_add";
+    @ResponseBody
+    public List<Menu> findOne() {
+        List<Menu> menusList = new LinkedList();
+        int[] ids = {39, 61, 40, 42, 45, 46, 52, 54, 55, 56};
+        for (int id : ids) {
+            Menu menu = menuService.findOne(id);
+            menusList.add(menu);
+        }
+        return menusList;
     }
 
     /**
