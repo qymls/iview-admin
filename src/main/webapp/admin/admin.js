@@ -112,7 +112,6 @@ var vue = new Vue({
                 alert("jointStr参数无效")
             }
             /*str += "}";*/
-            console.log(result)
             return result;
         },
 
