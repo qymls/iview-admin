@@ -371,20 +371,10 @@
         overflow: hidden; /*解决dropdown产生滚动条的bug*/
     }
 
-    body { /*动画效果*/
-        opacity: 0;
-        animation: page-fade-in 1s forwards;
+    .ivu-tabs-content { /*设置和iframe的高度相同，不然的话iframe切换会闪动，一闪一闪的*/
+        height: 100%;
     }
 
-    @keyframes page-fade-in {
-        0% {
-            opacity: 0
-        }
-
-        100% {
-            opacity: 1
-        }
-    }
 
 </style>
 <div id="app">

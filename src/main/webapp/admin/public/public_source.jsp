@@ -13,7 +13,7 @@
     <style>
         #app { /*页面滑动*/
             overflow: auto;
-          /*  height: calc(100% - 75px);*/
+            /*  height: calc(100% - 75px);*/
         }
 
         .ivu-table { /*table自适应*/
@@ -25,7 +25,7 @@
         }
 
         /*上述可用于公共属性*/
-        body {
+        body { /*动画效果*/
             opacity: 0;
             animation: page-fade-in 1s forwards;
         }
@@ -39,6 +39,7 @@
                 opacity: 1
             }
         }
+
         /*美化滚动条*/
         ::-webkit-scrollbar {
             width: 7px;

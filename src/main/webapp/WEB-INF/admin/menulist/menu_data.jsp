@@ -8,6 +8,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="/admin/public/public_source.jsp" %>
 <style>
+    #app {
+        height: calc(100% - 30px);
+    }
 </style>
 <div id="app">
 
