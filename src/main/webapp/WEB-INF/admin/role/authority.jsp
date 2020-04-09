@@ -30,13 +30,13 @@
             <i-col span="12">
                 <div>
                     <Tree :data="authorityTree" transfer show-checkbox ref="tree"
-                          @on-check-change="getAuthority"></Tree>
+                          @on-check-change="getAuthority" :render="renderContent"></Tree>
                 </div>
             </i-col>
             <Divider type="vertical" style="height: auto;width: 2px"/>
             <i-col span="12">
                 <div>
-                    <Tree :data="authorityTreeShow"></Tree>
+                    <Tree :data="authorityTreeShow" :render="renderContent"></Tree>
                 </div>
             </i-col>
 
@@ -99,6 +99,26 @@
             });
         },
         methods: {
+            renderContent(h, {root, node, data}) {/*自定义显示tree的图标，render函数*/
+                return h('span', {
+                    style: {
+                        display: 'inline-block',
+                        width: '100%'
+                    }
+                }, [
+                    h('span', [
+                        h('Icon', {
+                            props: {
+                                type: data.icon
+                            },
+                            style: {
+                                marginRight: '8px'
+                            }
+                        }),
+                        h('span', data.title)
+                    ]),
+                ]);
+            },
             getAuthorityDateInfo: function (data, roleauthority) {//递归菜单,获取已经有权限的菜单并且打开，选中
                 for (let i = 0; i < data.length; i++) {
                     if (data[i].children && data[i].children.length > 0) {/*传过来的都是当前修改菜单的父菜单*/

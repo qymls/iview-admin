@@ -20,10 +20,6 @@
             height: auto;
         }
 
-        .ivu-icon { /*图标不对齐的情况*/
-            line-height: unset;
-        }
-
         /*上述可用于公共属性*/
         body { /*动画效果*/
             opacity: 0;

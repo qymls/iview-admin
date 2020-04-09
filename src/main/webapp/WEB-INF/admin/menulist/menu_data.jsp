@@ -11,6 +11,9 @@
     #app {
         height: calc(100% - 30px);
     }
+    .ivu-icon { /*图标不对齐的情况*/
+        line-height: unset;
+    }
 </style>
 <div id="app">
 

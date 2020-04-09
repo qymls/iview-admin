@@ -352,7 +352,7 @@
                     h('span', [
                         h('Icon', {
                             props: {
-                                type: data.Icon
+                                type: data.icon
                             },
                             style: {
                                 marginRight: '8px'

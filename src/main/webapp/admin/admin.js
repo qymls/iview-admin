@@ -300,6 +300,9 @@ var vue = new Vue({
             }
 
         },
+        globalRefresh() {/*全局刷新*/
+            window.location.reload();
+        },
         //全屏事件
         handleFullScreen() {
             let element = document.documentElement;

@@ -106,7 +106,7 @@
     .header-middle-con {
         display: inline-block;
         vertical-align: top;
-        margin-left: 30px
+        margin-left: 15px
     }
 
     .header-avator-con {
@@ -349,7 +349,13 @@
         display: inline-block;
         text-align: center;
         color: #5c6b77;
-        margin-top: 12px;
+        margin-top: 15px;
+    }
+
+    .icon_refresh { /*刷新按钮*/
+        display: inline-block;
+        cursor: pointer;
+        color: #5c6b77;
     }
 
     #app {
@@ -460,6 +466,9 @@
                     <a type="text" class="side-trigger-a-my" href="javascript:void(0)" @click="collapsedSider">
                         <Icon type="md-menu" :class="rotateIcon"
                               style="font-size: 26px"/>
+                    </a>
+                    <a class="icon_refresh" href="javascript:void(0)" @click="globalRefresh">
+                        <Icon type="ios-refresh" style="font-size: 26px"/>
                     </a>
 
                     <div class="header-middle-con">
