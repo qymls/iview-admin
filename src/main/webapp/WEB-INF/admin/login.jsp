@@ -90,14 +90,14 @@
                         $.ajax({
                             type: "POST",
                             contentType: "application/x-www-form-urlencoded",
-                            url: "Admin/login",
+                            url: "Admin/qqLoginSendPost",
                             data: {
                                 "username": this.formInline.user,
                                 "password": this.formInline.password
                             },
                             dataType: 'json',
                             success: function (result) {
-                                window.location.href = "Admin/admin";
+                               /* window.location.href = "Admin/admin";*/
                             }
                         });
 

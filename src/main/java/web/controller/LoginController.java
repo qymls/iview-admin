@@ -46,9 +46,23 @@ public class LoginController {
      * @param session
      */
     @RequestMapping("/logout")
+    @ResponseBody
     public String logout(HttpSession session) {
         session.removeAttribute(Constant.LOGIN_SESSION);
-        return "redirect:login";
+        return "";
+    }
+
+    /**
+     * qq登录
+     */
+    @RequestMapping("/qqLoginSendPost")
+    public void qqLoginSendPost() {
+
+    }
+
+    @RequestMapping("/qqLoginAccessToken")
+    public void qqLoginAccessToken(String code) {
+        System.out.println(code);
     }
 
 }
