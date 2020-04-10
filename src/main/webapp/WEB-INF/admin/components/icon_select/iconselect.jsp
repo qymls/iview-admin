@@ -27,7 +27,6 @@
         width: 90px;
         text-align: center;
         list-style: none;
-        cursor: pointer;
         height: 90px;
         color: #5c6b77;
         transition: all .2s ease;
@@ -37,19 +36,22 @@
 </style>
 <body>
 <div id="app">
-    <i-Input icon="md-add" style="width: 200px;" v-model="chooseData" @on-click="showIcon">
-        <Icon :type="chooseData" slot="prefix"/>
-    </i-Input>
-    <Modal v-model="iconModal"  footer-hide class-name="max_model_icon">
+    <template v-if="chooseData !=''">
+        <i-Input :prefix="chooseData" icon="md-add" style="width: 200px;" v-model="chooseData" @on-click="showIcon"/>
+    </template>
+    <template v-else>
+        <i-Input icon="md-add" style="width: 200px;" v-model="chooseData" @on-click="showIcon"/>
+    </template>
+    <Modal v-model="iconModal" footer-hide class-name="max_model_icon">
         <div slot="header" style="text-align: center;">
             <i-input type="text" v-model="searchInput" placeholder="输入英文关键词搜索，比如 add" style="width: 260px;"
                      @on-change="search_icon"></i-input>
         </div>
         <template v-if="allIconData.length !=0">
-            <div class="icon_style" v-for="item in allIconData" @click="chooseIcon(item)">
+            <a href="javascript:void(0)" class="icon_style" v-for="item in allIconData" @click="chooseIcon(item)">
                 <Icon :type="item" size="25"></Icon>
                 <p>{{item}}</p>
-            </div>
+            </a>
         </template>
         <template v-else>
             <div style="text-align: center">
@@ -77,7 +79,6 @@
             }
         },
         created() {
-
         },
         methods: {
             showIcon() {

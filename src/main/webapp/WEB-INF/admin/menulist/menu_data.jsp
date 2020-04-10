@@ -11,7 +11,34 @@
     #app {
         height: calc(100% - 30px);
     }
-    .ivu-icon { /*图标不对齐的情况*/
+
+    /*   .ivu-icon { !*图标不对齐的情况*!
+           line-height: unset;
+       }*/
+
+    .ivu-icon-md-add {
+        cursor: pointer;
+    }
+
+    .max_model_icon .ivu-modal-body {
+        max-height: 500px;
+        overflow: auto;
+    }
+
+    .icon_style {
+        float: left;
+        margin: 6px 6px 6px 0;
+        width: 90px;
+        text-align: center;
+        list-style: none;
+        height: 90px;
+        color: #5c6b77;
+        transition: all .2s ease;
+        position: relative;
+        padding-top: 10px;
+    }
+
+    .page_class .ivu-icon {
         line-height: unset;
     }
 </style>
@@ -51,14 +78,18 @@
         <Row justify="center" align="middle">
             <div style="margin-top:20px">
                 <i-Table row-key="name" :columns="columns" :data="menuData" border max-height="650"
-                         @on-row-dblclick="updateModelShow"></i-Table>
+                         @on-row-dblclick="updateModelShow">
+                    <template slot-scope="{ row, index }" slot="icon_show">
+                        <Icon :type="row.icon"></Icon>
+                    </template>
+                </i-Table>
             </div>
             <div style="margin: 10px;overflow: hidden">
                 <div style="float: right;">
                     <Page :total="total" show-total :page-size="pageSize" :page-size-opts="[5,10,20]" :current="page"
                           show-sizer transfer show-elevator
                           @on-change="changePage" @on-page-size-change="sizeChange"
-                          style="line-height: unset;margin-top: 10px"></Page>
+                          class-name="page_class" style="margin-top: 10px;"></Page>
                 </div>
             </div>
             <Modal title="修改菜单" v-model="updateModel" class-name="vertical-center-modal" footer-hide>
@@ -68,7 +99,15 @@
                         <i-Input v-model="formValidate.name" placeholder="请输入菜单名" @on-blur="getEnglishName"></i-Input>
                     </Form-Item>
                     <Form-Item label="菜单图标" prop="icon">
-                        <i-Input v-model="formValidate.icon" placeholder="请输入菜单图标"></i-Input>
+                        <template v-if="formValidate.icon !=''">
+                            <i-Input v-model="formValidate.icon" :prefix="formValidate.icon" icon="md-add"
+                                     placeholder="请输入菜单图标"
+                                     @on-click="showIcon"/>
+                        </template>
+                        <template v-else>
+                            <i-Input v-model="formValidate.icon" icon="md-add" placeholder="请输入菜单图标"
+                                     @on-click="showIcon"/>
+                        </template>
                     </Form-Item>
                     <Form-Item label="英文名称" prop="englishName">
                         <i-Input v-model="formValidate.englishName" placeholder="请输入英文名称"></i-Input>
@@ -87,6 +126,24 @@
 
                 </i-Form>
             </Modal>
+            <Modal v-model="iconModal" footer-hide class-name="max_model_icon">
+                <div slot="header" style="text-align: center;">
+                    <i-input type="text" v-model="searchInput" placeholder="输入英文关键词搜索，比如 add" style="width: 260px;"
+                             @on-change="search_icon"></i-input>
+                </div>
+                <template v-if="allIconData.length !=0">
+                    <a href="javascript:void(0)" class="icon_style" v-for="item in allIconData"
+                       @click="chooseIcon(item)">
+                        <Icon :type="item" size="25"></Icon>
+                        <p>{{item}}</p>
+                    </a>
+                </template>
+                <template v-else>
+                    <div style="text-align: center">
+                        <p>无符合要求的数据</p>
+                    </div>
+                </template>
+            </Modal>
         </Row>
 
 
@@ -94,9 +151,14 @@
 
 
 </div>
-<script>
+<script type="module">
+    import iconData from './admin/public/icons.js';
+
     new Vue({
         el: "#app",
+        components: {
+            iconData,
+        },
         data: function () {
             const nameplates = (rule, value, callback) => {/*异步验证菜单名称*/
                 if (value === '') {
@@ -120,6 +182,9 @@
                 title: "菜单详情",
                 rows: [],
                 updateModel: false,
+                iconModal: false,
+                allIconData: [],
+                searchInput: '',/*图标选择器*/
                 formValidate: {
                     name: '',
                     icon: '',
@@ -159,23 +224,29 @@
                         title: '菜单地址',
                         key: 'url',
                         resizable: true,
-                        width: 200,
+                        width: 300,
                     },
                     {
                         title: '菜单图标',
                         key: 'icon',
-                    },
-                    {
-                        title: '菜单描述',
-                        key: 'description',
+                        slot: 'icon_show',
+                        align: 'center',
+                        width: 150,
                     },
                     {
                         title: '创建时间',
                         key: 'createTime',
+                        width: 200
+                    },
+                    {
+                        title: '菜单描述',
+                        key: 'description',
+                        ellipsis: true,
                     },
                     {
                         title: '操作人',
                         key: 'operator',
+                        width: 100
                     },
 
                 ],
@@ -190,6 +261,24 @@
             this.getFirstMenuData(this.page, this.pageSize);
         },
         methods: {
+            showIcon() {/*弹出图标窗体*/
+                this.searchInput = '';
+                this.iconModal = true;
+                this.allIconData = iconData;
+            },
+            chooseIcon(iconChoose) {/*选择图标*/
+                this.formValidate.icon = iconChoose;
+                this.iconModal = false;
+            },
+            search_icon() {/*搜索图标*/
+                var searchResult = [];
+                for (let i = 0; i < iconData.length; i++) {
+                    if (iconData[i].indexOf(this.searchInput) != -1) {
+                        searchResult.push(iconData[i])
+                    }
+                }
+                this.allIconData = searchResult;
+            },
             getEnglishName() {/*通过菜单名称，自动翻译成英文*/
                 var $apge = this;
                 if (this.formValidate.name != '') {/*不能为空*/
@@ -231,6 +320,7 @@
                 return data;
             },
             updateModelShow(data) {
+                this.$refs['formValidate'].resetFields();/*清除model的表单数据,打开model就清空*/
                 this.updateModel = true;
                 this.menuName = data.name;
                 this.formValidate.id = data.id;
@@ -261,7 +351,7 @@
                                 } else {
                                     console.log('一级菜单不用展开')
                                 }
-                                $page.$refs[name].resetFields();/*清除model的表单数据*/
+                                /* $page.$refs[name].resetFields();/!*清除model的表单数据*!/*/
                                 $page.$Message.success('修改数据成功');
                             }
                         });

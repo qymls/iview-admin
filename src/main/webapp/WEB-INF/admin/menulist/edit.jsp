@@ -16,6 +16,28 @@
         height: calc(100% - 50px);
     }
 
+    .ivu-icon-md-add {
+        cursor: pointer
+    }
+
+    .max_model_icon .ivu-modal-body {
+        max-height: 500px;
+        overflow: auto;
+    }
+
+    .icon_style {
+        float: left;
+        margin: 6px 6px 6px 0;
+        width: 90px;
+        text-align: center;
+        list-style: none;
+        height: 90px;
+        color: #5c6b77;
+        transition: all .2s ease;
+        position: relative;
+        padding-top: 10px;
+    }
+
     /*cursor: pointer;带上a标签的属性*/
 </style>
 <div id="app">
@@ -44,7 +66,13 @@
                 <i-Input v-model="formValidate.name" placeholder="请输入菜单名" @on-blur="getEnglishName"></i-Input>
             </Form-Item>
             <Form-Item label="菜单图标" prop="icon">
-                <i-Input v-model="formValidate.icon" placeholder="请输入菜单图标"></i-Input>
+                <template v-if="formValidate.icon !=''">
+                    <i-Input v-model="formValidate.icon" :prefix="formValidate.icon" icon="md-add" placeholder="请输入菜单图标"
+                             @on-click="showIcon"/>
+                </template>
+                <template v-else>
+                    <i-Input v-model="formValidate.icon" icon="md-add" placeholder="请输入菜单图标" @on-click="showIcon"/>
+                </template>
             </Form-Item>
             <Form-Item label="英文名称" prop="englishName">
                 <i-Input v-model="formValidate.englishName" placeholder="请输入英文名称"></i-Input>
@@ -78,11 +106,32 @@
         </div>
     </Modal>
 
-
+    <Modal v-model="iconModal" footer-hide class-name="max_model_icon">
+        <div slot="header" style="text-align: center;">
+            <i-input type="text" v-model="searchInput" placeholder="输入英文关键词搜索，比如 add" style="width: 260px;"
+                     @on-change="search_icon"></i-input>
+        </div>
+        <template v-if="allIconData.length !=0">
+            <a href="javascript:void(0)" class="icon_style" v-for="item in allIconData" @click="chooseIcon(item)">
+                <Icon :type="item" size="25"></Icon>
+                <p>{{item}}</p>
+            </a>
+        </template>
+        <template v-else>
+            <div style="text-align: center">
+                <p>无符合要求的数据</p>
+            </div>
+        </template>
+    </Modal>
 </div>
-<script>
+<script type="module">
+    import iconData from './admin/public/icons.js';
+
     new Vue({
         el: "#app",
+        components: {
+            iconData,
+        },
         data() {
             const nameplates = (rule, value, callback) => {/*异步验证菜单名称*/
                 if (value === '') {
@@ -101,6 +150,9 @@
                 title: "菜单管理",
                 addModel: false,
                 delModel: false,
+                iconModal: false,
+                allIconData: [],
+                searchInput: '',/*图标选择器*/
                 formValidate: {
                     name: '',
                     icon: '',
@@ -201,6 +253,24 @@
             this.data5[0].children = Data
         },
         methods: {
+            showIcon() {/*弹出图标窗体*/
+                this.searchInput = '';
+                this.iconModal = true;
+                this.allIconData = iconData;
+            },
+            chooseIcon(iconChoose) {/*选择图标*/
+                this.formValidate.icon = iconChoose;
+                this.iconModal = false;
+            },
+            search_icon() {/*搜索图标*/
+                var searchResult = [];
+                for (let i = 0; i < iconData.length; i++) {
+                    if (iconData[i].indexOf(this.searchInput) != -1) {
+                        searchResult.push(iconData[i])
+                    }
+                }
+                this.allIconData = searchResult;
+            },
             returnMenu() {/*返回菜单界面*/
                 window.location.href = 'Admin/Menu/forwardMenuList';/*返回菜单管理界面*/
             },
@@ -265,7 +335,7 @@
                                 data.expand = true;/*将该菜单打开*/
                                 $page.$set(data, 'children', children);//是处理data没有children属性的情况的
                                 $page.addModel = false//关闭model
-                                $page.$refs['formValidate'].resetFields();// 清空值
+                                /*$page.$refs['formValidate'].resetFields();// 清空值,打开model就清空*/
                             }
                         });
                         this.$Message.success('添加菜单' + newMenu.name + "成功");
@@ -411,6 +481,7 @@
             },
 
             append(data) {
+                this.$refs['formValidate'].resetFields();// 清空值,打开model就清空
                 this.addModel = true;
                 this.parentMenu = data.title;
                 this.formValidate.parent = data.id;
