@@ -59,6 +59,22 @@
         <Form-Item>
             <i-Button type="primary" size="large" long @click="handleSubmit('formInline')">登录</i-Button>
         </Form-Item>
+        <Form-Item>
+            <div style="text-align: center">
+                <div style=" width: auto; display: inline-block;">
+                    <a href="https://github.com/login/oauth/authorize?client_id=3ca472fea411731bca58&state=github"
+                       style="{right: 26px;}">
+                        <img class="icon" src="admin/images/GitHub.svg" style="width: 35px;height: 40px;"/>
+                    </a>
+                </div>
+                <div style=" width: auto; display: inline-block;">
+                    <a href="https://graph.qq.com/oauth2.0/authorize?response_type=code&client_id=101525509&redirect_uri=http://127.0.0.1/Admin/qqLoginAccessToken&state=qq"
+                       style="{right: 26px;}">
+                        <img class="icon" src="admin/images/social-qq.svg" style="width: 35px;height: 40px;"/>
+                    </a>
+                </div>
+            </div>
+        </Form-Item>
     </i-Form>
 
 </div>
@@ -97,7 +113,7 @@
                             },
                             dataType: 'json',
                             success: function (result) {
-                               /* window.location.href = "Admin/admin";*/
+                                /* window.location.href = "Admin/admin";*/
                             }
                         });
 

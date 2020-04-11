@@ -12,12 +12,14 @@
             <bean id="iUserService" class="_20200322.service.impl.UserServiceImpl"></bean>-->
     <!--使用自动装载注解-->
     <import resource="dataSource.xml"/><!--引入jdbc的连接池-->
-    <context:component-scan base-package="dao.impl"/><!--扫描dao层-->
+    <context:component-scan base-package="dao"/><!--扫描dao层-->
 
     <!--  <bean id="iUserService" class="_20200323.service.impl.UserServiceImpl">
           <property name="IUserDao" ref="iUserDao1"/>
       </bean>-->
-    <context:component-scan base-package="service.impl"/><!--扫描service层-->
+    <context:component-scan base-package="service"/><!--扫描service层-->
 
+    <bean id="threadPoolTaskExecutor"
+          class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor"></bean><!--用于第三方登录，异步下载头像-->
 
 </beans>

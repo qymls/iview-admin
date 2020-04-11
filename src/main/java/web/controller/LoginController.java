@@ -1,9 +1,11 @@
 package web.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import service.login.IAuthenticationService;
 import util.Constant;
 
 import javax.servlet.http.HttpSession;
@@ -13,6 +15,18 @@ import java.util.Map;
 @Controller
 @RequestMapping("/Admin")
 public class LoginController {
+    private IAuthenticationService gitHubAuthenticationService;/*github登录*/
+    private IAuthenticationService qqAuthenticationService;/*qq登录*/
+
+    @Autowired
+    public void setGitHubAuthenticationService(IAuthenticationService gitHubAuthenticationService) {
+        this.gitHubAuthenticationService = gitHubAuthenticationService;
+    }
+
+    @Autowired
+    public void setQqAuthenticationService(IAuthenticationService qqAuthenticationService) {
+        this.qqAuthenticationService = qqAuthenticationService;
+    }
 
     /**
      * 跳转登录页面
@@ -60,9 +74,17 @@ public class LoginController {
 
     }
 
-    @RequestMapping("/qqLoginAccessToken")
-    public void qqLoginAccessToken(String code) {
+    @RequestMapping("/qqLogin")
+    @ResponseBody
+    public void qqLogin(String code) {
         System.out.println(code);
+    }
+
+    @RequestMapping("/gitHubLogin")
+    public String gitHubLogin(String code,HttpSession session) {
+        System.out.println(code);
+        gitHubAuthenticationService.getUserInfo(code,session);
+        return "redirect:/Admin/admin";
     }
 
 }
