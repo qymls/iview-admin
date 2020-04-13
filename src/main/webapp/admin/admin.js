@@ -23,8 +23,12 @@ var vue = new Vue({
             isCollapsed: false,//侧边栏菜单是否收起
             selfMessageCN: {},//语言切换后显示的，可以放在文件里import进来，或者数据库读取，或者处理菜单数据
             selfMessageEN: {},
-
             tempArray: [],//临时数组使用，用于存储菜单语言信息
+            theme: {
+                right_menu_style: "dark",
+                right_menu_h2: "color: aliceblue",
+              /*  right_menu_h2: ""*//*right_menu_h2: ""*/
+            }
         };
     },
     computed: {//用于左边菜单栏的收起

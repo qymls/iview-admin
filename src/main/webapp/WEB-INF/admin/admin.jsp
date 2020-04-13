@@ -159,7 +159,7 @@
     }
 
     .ivu-menu-item { /*子菜单颜色*/
-        background: #000000;
+        /*background: #000000;*/
     }
 
     .ivu-menu-dark.ivu-menu-vertical .ivu-menu-opened .ivu-menu-submenu-title { /*菜单打开时的颜色*/
@@ -171,7 +171,7 @@
     }
 
     h2 {
-        color: aliceblue;
+        /* color: aliceblue;*/
     }
 
     .index {
@@ -390,15 +390,16 @@
                    class="menu-side">
                 <template v-if="!isCollapsed">
                     <div>
-                        <div class="layout-top">
-                            <div class="layout-logo">
-                                <img src="https://i.loli.net/2017/08/21/599a521472424.jpg">
-                            </div>
-                            <div class="title-admin"><h2>后端管理系统</h2></div>
-                        </div>
-                        <i-menu theme="dark" ref="refresh" :active-name="activeName" width="auto" accordion
+                        <i-menu :theme="theme.right_menu_style" ref="refresh" :active-name="activeName" width="auto"
+                                accordion
                                 :open-names="openMenuName"
                                 @on-select="menuSelect">
+                            <div class="layout-top">
+                                <div class="layout-logo">
+                                    <img src="https://i.loli.net/2017/08/21/599a521472424.jpg">
+                                </div>
+                                <div class="title-admin"><h2 :style="theme.right_menu_h2">后端管理系统</h2></div>
+                            </div>
                             <Submenu v-for="item in menuData" v-if="item.children&&item.children.length!==0"
                                      :name="item.name">
                                 <template slot="title">
