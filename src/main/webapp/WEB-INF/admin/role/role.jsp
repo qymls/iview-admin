@@ -31,7 +31,7 @@
 
         <Row>
             <i-col span="3">
-                <i-button type="primary" icon="md-add">添加角色</i-button>
+                <i-button type="primary" icon="md-add" @click="addRole">添加角色</i-button>
             </i-col>
             <i-col span="21">
                 <i-Form ref="formInline" :model="formInline" inline>
@@ -258,6 +258,9 @@
             });
         },
         methods: {
+            addRole() {
+                this.authority = true;
+            },
             handleEdit(row, index) {
                 this.editName = row.name;
                 this.editAge = row.age;
