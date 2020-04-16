@@ -27,8 +27,9 @@ var vue = new Vue({
             theme: {
                 right_menu_style: "dark",
                 right_menu_h2: "color: aliceblue",
-              /*  right_menu_h2: ""*//*right_menu_h2: ""*/
-            }
+                /*  right_menu_h2: ""*//*right_menu_h2: ""*/
+            },
+            mainStyle: false,/*侧边栏风格设置*/
         };
     },
     computed: {//用于左边菜单栏的收起
@@ -306,6 +307,9 @@ var vue = new Vue({
         },
         globalRefresh() {/*全局刷新*/
             window.location.reload();
+        },
+        mainStyleShow() {/*弹出更改风格侧边栏*/
+            this.mainStyle = true;
         },
         //全屏事件
         handleFullScreen() {

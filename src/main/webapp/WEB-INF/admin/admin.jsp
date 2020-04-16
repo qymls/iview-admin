@@ -112,7 +112,7 @@
     .header-avator-con {
         float: right;
         height: auto;
-        padding-right: 20px;
+        padding-right: 15px;
         line-height: 64px;
     }
 
@@ -358,6 +358,11 @@
         color: #5c6b77;
     }
 
+    .main_style{/*风格按钮*/
+        vertical-align: middle;
+        color: #5c6b77;
+    }
+
     #app {
         height: 100%;
         width: 100%;
@@ -463,7 +468,7 @@
 
             </Sider>
             <Layout style="overflow: hidden;">
-                <Header style="padding: 0 20px;height: 64px;line-height: 64px;" class="layout-header-bar">
+                <Header style="height: 64px;line-height: 64px;" class="layout-header-bar">
                     <a type="text" class="side-trigger-a-my" href="javascript:void(0)" @click="collapsedSider">
                         <Icon type="md-menu" :class="rotateIcon"
                               style="font-size: 26px"/>
@@ -518,10 +523,17 @@
                                 </Dropdown-Item>
                             </Dropdown-Menu>
                         </Dropdown>
+                        <div style="display: inline-block;">
                         <Avatar src="https://i.loli.net/2017/08/21/599a521472424.jpg"/>
-
-
+                        </div>
+                        <a class="main_style" href="javascript:void(0)" @click="mainStyleShow">
+                            <Icon type="md-more" style="font-size: 26px"/>
+                        </a>
                     </div>
+                    <Drawer :closable="false"  v-model="mainStyle">
+                        <Divider slot="header" size="small">主题风格设置</Divider>
+
+                    </Drawer>
                 </Header>
 
                 <i-Content>
