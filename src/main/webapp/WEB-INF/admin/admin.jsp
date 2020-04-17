@@ -253,7 +253,7 @@
     }
 
     .layout-header-bar {
-        background: #fff;
+        /* background: #fff;*/
         box-shadow: 0 1px 1px rgba(0, 0, 0, .1);
 
     }
@@ -358,7 +358,7 @@
         color: #5c6b77;
     }
 
-    .main_style{/*风格按钮*/
+    .main_style { /*风格按钮*/
         vertical-align: middle;
         color: #5c6b77;
     }
@@ -386,6 +386,64 @@
         height: 100%;
     }
 
+    .theme_style { /*改变风格的样式*/
+        display: inline-block;
+        position: relative;
+        margin-right: 16px;
+        cursor: pointer;
+    }
+
+    .theme_style.on:after {
+        background: #19be6b;
+    }
+
+    .theme_style:after {
+        content: "";
+        display: block;
+        width: 6px;
+        height: 6px;
+        border-radius: 6px;
+        background: transparent;
+        margin: 6px auto 0;
+    }
+
+    /*利用菜单的三种风格改变样式，顶部的*/
+    .top_style_chang .ivu-menu-item {
+        float: unset;
+        padding: unset;
+    }
+
+    .top_style_chang.ivu-menu-light.ivu-menu-horizontal .ivu-menu-item-active { /*改变在light的的样式*/
+        color: unset;
+        border-bottom: unset;
+    }
+
+    .top_style_chang.ivu-menu-light.ivu-menu-horizontal .ivu-menu-item:hover {
+        border-bottom: 0;
+    }
+
+    .top_style_chang.ivu-menu-light.ivu-menu-horizontal .ivu-menu-item { /*要两个一起写，不然移出来的时候就会动*/
+        border-bottom: 0;
+    }
+
+    /*收缩菜单样式调整*/
+    .dropdown_style_menu .ivu-menu-item {
+        padding: 0 0 10px;
+    }
+
+    .dropdown_style_menu.ivu-menu-light.ivu-menu-vertical .ivu-menu-item-active:not(.ivu-menu-submenu) { /*改变在light的的样式*/
+        color: unset;
+        background: unset;
+    }
+
+    .dropdown_style_menu.ivu-menu-light.ivu-menu-vertical .ivu-menu-item-active:not(.ivu-menu-submenu):after { /*改变在light的的样式*/
+        background: unset;
+    }
+
+    .dropdown_style_menu.ivu-menu-dark.ivu-menu-vertical .ivu-menu-item-active:not(.ivu-menu-submenu) {
+        background: unset;
+    }
+
 
 </style>
 <div id="app">
@@ -396,6 +454,7 @@
                 <template v-if="!isCollapsed">
                     <div>
                         <i-menu :theme="theme.right_menu_style" ref="refresh" :active-name="activeName" width="auto"
+                                style="min-height: 100%"
                                 accordion
                                 :open-names="openMenuName"
                                 @on-select="menuSelect">
@@ -423,119 +482,142 @@
                 </template>
                 <!--收缩后样式菜单-->
                 <template v-else>
-                    <div class="layout-top">
-                        <div class="layout-logo">
-                            <img src="https://i.loli.net/2017/08/21/599a521472424.jpg">
+                    <i-menu :theme="dropdown_style_theme" style="min-height: 100%" width="auto" class="dropdown_style_menu">
+                        <div class="layout-top">
+                            <div class="layout-logo">
+                                <img src="https://i.loli.net/2017/08/21/599a521472424.jpg">
+                            </div>
                         </div>
-                    </div>
-                    <div class="list-object">
-                        <Dropdown placement="right" class="left_menu_ss" v-for="item in menuData"
-                                  v-if="item.children&&item.children.length!==0" @on-click="drop_click" transfer
-                                  transfer-class-name="transfer_style">
-                            <a type="text" class="drop-menu-a">
-                                <Icon v-bind:type="item.icon" size="20" style="color: rgb(255, 255, 255)"></Icon>
-                            </a>
-                            <Dropdown-Menu slot="list" style="text-align: left">
-                                <Dropdown v-for="item in item.children"
-                                          v-if="item.children&&item.children.length!==0" placement="right-start">
-                                    <Dropdown-item name="stop_click"><!--禁用父菜单，不能被点击-->
+                        <div class="list-object">
+                            <Dropdown placement="right" class="left_menu_ss" v-for="item in menuData"
+                                      v-if="item.children&&item.children.length!==0" @on-click="drop_click" transfer
+                                      transfer-class-name="transfer_style">
+                                <%-- <a type="text" class="drop-menu-a">--%>
+                                <menu-item :name="item.name">
+                                    <Icon v-bind:type="item.icon" size="20"></Icon>
+                                </menu-item>
+                                <%--  </a>--%>
+                                <Dropdown-Menu slot="list" style="text-align: left">
+                                    <Dropdown v-for="item in item.children"
+                                              v-if="item.children&&item.children.length!==0" placement="right-start">
+                                        <Dropdown-item name="stop_click"><!--禁用父菜单，不能被点击-->
+                                            <Icon :type="item.icon"></Icon>
+                                            <span>{{$t(item.name)}}</span>
+                                            <Icon type="ios-arrow-forward"></Icon>
+                                        </Dropdown-item>
+                                        <!--递归-->
+                                        <Dropdown-Menu slot="list">
+                                            <left-Nav-Children-Shrink-Menu :parent-item-menu='item.children'>
+
+                                            </left-Nav-Children-Shrink-Menu>
+                                        </Dropdown-Menu>
+                                    </Dropdown>
+                                    <Dropdown-Item v-else :name="item.name">
                                         <Icon :type="item.icon"></Icon>
                                         <span>{{$t(item.name)}}</span>
-                                        <Icon type="ios-arrow-forward"></Icon>
-                                    </Dropdown-item>
-                                    <!--递归-->
-                                    <Dropdown-Menu slot="list">
-                                        <left-Nav-Children-Shrink-Menu :parent-item-menu='item.children'>
+                                    </Dropdown-Item>
+                                </Dropdown-Menu>
+                            </Dropdown>
 
-                                        </left-Nav-Children-Shrink-Menu>
-                                    </Dropdown-Menu>
-                                </Dropdown>
-                                <Dropdown-Item v-else :name="item.name">
-                                    <Icon :type="item.icon"></Icon>
-                                    <span>{{$t(item.name)}}</span>
-                                </Dropdown-Item>
-                            </Dropdown-Menu>
-                        </Dropdown>
-
-                        <Tooltip v-else-if="item.name!='首页'" :content="$t(item.name)" class="left_menu_ss toot_style"
-                                 placement="right" transfer>
-                            <a type="text" class="drop-menu-a" @click="tooltip_click(item.name)">
-                                <Icon :type="item.icon" style="font-size: 23px;color: rgb(255, 255, 255)"/>
-                            </a>
-                        </Tooltip>
-                    </div>
+                            <Tooltip v-else-if="item.name!='首页'" :content="$t(item.name)"
+                                     class="left_menu_ss toot_style"
+                                     placement="right" transfer>
+                                <%-- <a type="text" class="drop-menu-a" @click="tooltip_click(item.name)">--%>
+                                <menu-item :name="item.name">
+                                    <Icon :type="item.icon" size="20" @click="tooltip_click(item.name)"/>
+                                </menu-item>
+                                <%--  </a>--%>
+                            </Tooltip>
+                        </div>
+                    </i-menu>
                 </template>
 
             </Sider>
-            <Layout style="overflow: hidden;">
-                <Header style="height: 64px;line-height: 64px;" class="layout-header-bar">
-                    <a type="text" class="side-trigger-a-my" href="javascript:void(0)" @click="collapsedSider">
-                        <Icon type="md-menu" :class="rotateIcon"
-                              style="font-size: 26px"/>
-                    </a>
-                    <a class="icon_refresh" href="javascript:void(0)" @click="globalRefresh">
-                        <Icon type="ios-refresh" style="font-size: 26px"/>
-                    </a>
-
-                    <div class="header-middle-con">
-                        <Breadcrumb>
-                            <Breadcrumb-Item v-for="(item,index) in breadRum" :to="item.url">
-                                <Icon :type="item.icon"></Icon>
-                                {{$t(item.name)}}
-                            </Breadcrumb-Item>
-                        </Breadcrumb>
-                    </div>
-
-                    <div class="header-avator-con">
-                        <div class="full-screen-btn-con" @click="handleFullScreen">
-                            <Tooltip :content="fullscreen ? '取消全屏':'全屏'" transfer>
-                                <Icon type="md-expand" style="font-size: 23px;"/>
-                            </Tooltip>
-                        </div>
-                        <Dropdown style="margin-left: 36px" transfer @on-click="changeLang">
-                            <a href="javascript:void(0)">
-                                语言
-                                <Icon type="ios-arrow-down"></Icon>
-                            </a>
-                            <Dropdown-Menu slot="list">
-                                <Dropdown-Item name="zh_CN">中文简体</Dropdown-Item>
-                                <Dropdown-Item name="en_US">English</Dropdown-Item>
-                            </Dropdown-Menu>
-                        </Dropdown>
-
-                        <Dropdown style="margin-left: 18px;" transfer @on-click="personClick">
-                            <a href="javascript:void(0)">
-                                iview-admin
-                                <Icon type="ios-arrow-down"></Icon>
-                            </a>
-                            <Dropdown-Menu slot="list">
-                                <Dropdown-Item name="个人中心">
-                                    <Icon type="ios-settings-outline"></Icon>
-                                    个人设置
-                                </Dropdown-Item>
-                                <Dropdown-Item divided name="refresh">
-                                    <Icon type="ios-refresh"></Icon>
-                                    全局刷新
-                                </Dropdown-Item>
-                                <Dropdown-Item divided name="logout">
-                                    <Icon type="ios-log-out"></Icon>
-                                    退出登录
-                                </Dropdown-Item>
-                            </Dropdown-Menu>
-                        </Dropdown>
-                        <div style="display: inline-block;">
-                        <Avatar src="https://i.loli.net/2017/08/21/599a521472424.jpg"/>
-                        </div>
-                        <a class="main_style" href="javascript:void(0)" @click="mainStyleShow">
-                            <Icon type="md-more" style="font-size: 26px"/>
+            <Layout style="overflow: hidden;margin-left: -2px">
+                <i-Menu mode="horizontal" :theme="top_style_theme" class="top_style_chang">
+                    <Header style="height: 64px;line-height: 64px;" class="layout-header-bar">
+                        <a type="text" class="side-trigger-a-my" href="javascript:void(0)">
+                            <menu-item name="1">
+                                <Icon type="md-menu" :class="rotateIcon" @click="collapsedSider"
+                                      style="font-size: 26px"/>
+                            </menu-item>
                         </a>
-                    </div>
-                    <Drawer :closable="false"  v-model="mainStyle">
-                        <Divider slot="header" size="small">主题风格设置</Divider>
 
-                    </Drawer>
-                </Header>
+                        <a class="icon_refresh" href="javascript:void(0)">
+                            <menu-item name="2">
+                                <Icon type="ios-refresh" style="font-size: 26px" @click="globalRefresh"/>
+                            </menu-item>
+                        </a>
 
+                        <div class="header-middle-con">
+                            <Breadcrumb>
+                                <Breadcrumb-Item v-for="(item,index) in breadRum" :to="item.url">
+                                    <menu-item name="3" style="display: inline-block">
+                                        <Icon :type="item.icon"></Icon>
+                                        {{$t(item.name)}}
+                                    </menu-item>
+                                </Breadcrumb-Item>
+                            </Breadcrumb>
+                        </div>
+
+                        <div class="header-avator-con">
+                            <div class="full-screen-btn-con" style="vertical-align: middle;">
+                                <Tooltip :content="fullscreen ? '取消全屏':'全屏'" transfer>
+                                    <menu-item name="9">
+                                        <Icon type="md-expand" style="font-size: 23px;" @click="handleFullScreen"/>
+                                    </menu-item>
+                                </Tooltip>
+                            </div>
+                            <Dropdown style="margin-left: 36px;vertical-align: middle;" transfer @on-click="changeLang">
+                                <a href="javascript:void(0)">
+                                    <menu-item name="5">
+                                        语言
+                                        <Icon type="ios-arrow-down"></Icon>
+                                    </menu-item>
+                                </a>
+
+                                <Dropdown-Menu slot="list">
+                                    <Dropdown-Item name="zh_CN">中文简体</Dropdown-Item>
+                                    <Dropdown-Item name="en_US">English</Dropdown-Item>
+                                </Dropdown-Menu>
+                            </Dropdown>
+
+                            <Dropdown style="margin-left: 18px;vertical-align: middle;" transfer
+                                      @on-click="personClick">
+                                <a href="javascript:void(0)">
+                                    <menu-item name="6">
+                                        iview-admin
+                                        <Icon type="ios-arrow-down"></Icon>
+                                    </menu-item>
+                                </a>
+                                <Dropdown-Menu slot="list">
+                                    <Dropdown-Item name="个人中心">
+                                        <Icon type="ios-settings-outline"></Icon>
+                                        个人设置
+                                    </Dropdown-Item>
+                                    <Dropdown-Item divided name="refresh">
+                                        <Icon type="ios-refresh"></Icon>
+                                        全局刷新
+                                    </Dropdown-Item>
+                                    <Dropdown-Item divided name="logout">
+                                        <Icon type="ios-log-out"></Icon>
+                                        退出登录
+                                    </Dropdown-Item>
+                                </Dropdown-Menu>
+                            </Dropdown>
+                            <div style="display: inline-block;vertical-align: middle;">
+                                <Avatar src="https://i.loli.net/2017/08/21/599a521472424.jpg"/>
+                            </div>
+                            <div style="display: inline-block;vertical-align: middle;">
+                                <a class="main_style" href="javascript:void(0)">
+                                    <menu-item name="7">
+                                        <Icon type="md-more" style="font-size: 26px" @click="mainStyleShow"/>
+                                    </menu-item>
+                                </a>
+                            </div>
+                        </div>
+                    </Header>
+                </i-Menu>
                 <i-Content>
                     <div class="layout-content-main">
 
@@ -572,6 +654,28 @@
                 </i-Content>
             </Layout>
         </Layout>
+        <Drawer :closable="false" v-model="mainStyle">
+            <Divider slot="header" size="small">主题风格设置</Divider>
+            <List>
+                <List-Item style="padding: 12px 0 ">
+                    <div :class="item.leftStyleClass" v-for="item in leftMainStyle"
+                         @click="changeLeftStyle(item.them_name)">
+                        <Tooltip :content="item.content" transfer placement="top">
+                            <img :src="item.url">
+                        </Tooltip>
+                    </div>
+                </List-Item>
+
+                <List-Item style="padding: 12px 0 ">
+                    <div :class="item.topStyleClass" v-for="item in topMainStyle"
+                         @click="changeTopStyle(item.them_name)">
+                        <Tooltip :content="item.content" transfer placement="top">
+                            <img :src="item.url">
+                        </Tooltip>
+                    </div>
+                </List-Item>
+            </List>
+        </Drawer>
     </template>
 
 </div>

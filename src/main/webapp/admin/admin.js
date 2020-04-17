@@ -30,6 +30,42 @@ var vue = new Vue({
                 /*  right_menu_h2: ""*//*right_menu_h2: ""*/
             },
             mainStyle: false,/*侧边栏风格设置*/
+            leftMainStyle: [/*侧边栏风格*/
+                {
+                    them_name: "dark",
+                    content: '暗色侧边栏',
+                    leftStyleClass: "theme_style on",
+                    url: "https://file.iviewui.com/admin-pro-dist/img/nav-theme-dark.da07f9c2.svg"
+                },
+                {
+                    them_name: "light",
+                    content: '亮色侧边栏',
+                    leftStyleClass: "theme_style",
+                    url: "https://file.iviewui.com/admin-pro-dist/img/nav-theme-light.262af236.svg"
+                }
+            ],
+            topMainStyle: [/*顶部栏栏风格*/
+                {
+                    them_name: "light",
+                    content: '亮色顶栏',
+                    topStyleClass: "theme_style on",
+                    url: "https://file.iviewui.com/admin-pro-dist/img/nav-theme-dark.da07f9c2.svg"
+                },
+                {
+                    them_name: "dark",
+                    content: '暗色顶栏',
+                    topStyleClass: "theme_style",
+                    url: "https://file.iviewui.com/admin-pro-dist/img/header-theme-dark.1606ed02.svg"
+                },
+                {
+                    them_name: "primary",
+                    content: '主色顶栏',
+                    topStyleClass: "theme_style",
+                    url: "https://file.iviewui.com/admin-pro-dist/img/header-theme-primary.babcd2f1.svg"
+                }
+            ],
+            top_style_theme: "light",/*top主题样式*/
+            dropdown_style_theme: 'dark'
         };
     },
     computed: {//用于左边菜单栏的收起
@@ -310,6 +346,47 @@ var vue = new Vue({
         },
         mainStyleShow() {/*弹出更改风格侧边栏*/
             this.mainStyle = true;
+        },
+        changeLeftStyle(param) {/*改变侧边栏的风格*/
+            for (let i = 0; i < this.leftMainStyle.length; i++) {
+                if (this.leftMainStyle[i].them_name == param) {
+                    this.leftMainStyle[i].leftStyleClass = "theme_style on"
+                } else {
+                    this.leftMainStyle[i].leftStyleClass = "theme_style"
+                }
+            }
+            /*改变相应的菜单主颜色*/
+            if (param == 'dark') {
+                this.theme = {
+                    right_menu_style: "dark",
+                    right_menu_h2: "color: aliceblue",
+                }
+                this.dropdown_style_theme = 'dark'
+            } else if (param == 'light') {
+                this.theme = {
+                    right_menu_style: "light",
+                    right_menu_h2: "",
+                }
+                this.dropdown_style_theme = 'light'
+            }
+        },
+        changeTopStyle(param) {/*改变顶部主题*/
+            for (let i = 0; i < this.topMainStyle.length; i++) {
+                if (this.topMainStyle[i].them_name == param) {
+                    this.topMainStyle[i].topStyleClass = "theme_style on"
+                } else {
+                    this.topMainStyle[i].topStyleClass = "theme_style"
+                }
+            }
+            console.log(param)
+            if (param == 'light') {
+                this.top_style_theme = 'light';
+            } else if (param == 'dark') {
+                this.top_style_theme = 'dark';
+            } else if (param == 'primary') {
+                this.top_style_theme = 'primary';
+            }
+
         },
         //全屏事件
         handleFullScreen() {
