@@ -444,6 +444,20 @@
         background: unset;
     }
 
+    /* !*switch的开关图标样式*!
+     .switch-icon-style .ivu-icon {
+         line-height: unset;
+     }*/
+    /*设置抽屉的padding header 和body的*/
+    .drawer_header_style .ivu-drawer-header {
+        border: unset;
+        padding-bottom: 0;
+    }
+
+    .drawer_header_style .ivu-drawer-body {
+        border: unset;
+        padding-top: 0;
+    }
 
 </style>
 <div id="app">
@@ -482,7 +496,8 @@
                 </template>
                 <!--收缩后样式菜单-->
                 <template v-else>
-                    <i-menu :theme="dropdown_style_theme" style="min-height: 100%" width="auto" class="dropdown_style_menu">
+                    <i-menu :theme="dropdown_style_theme" style="min-height: 100%" width="auto"
+                            class="dropdown_style_menu">
                         <div class="layout-top">
                             <div class="layout-logo">
                                 <img src="https://i.loli.net/2017/08/21/599a521472424.jpg">
@@ -654,9 +669,9 @@
                 </i-Content>
             </Layout>
         </Layout>
-        <Drawer :closable="false" v-model="mainStyle">
+        <Drawer :closable="false" v-model="mainStyle" class-name="drawer_header_style">
             <Divider slot="header" size="small">主题风格设置</Divider>
-            <List>
+            <List :split="false">
                 <List-Item style="padding: 12px 0 ">
                     <div :class="item.leftStyleClass" v-for="item in leftMainStyle"
                          @click="changeLeftStyle(item.them_name)">
@@ -674,6 +689,21 @@
                         </Tooltip>
                     </div>
                 </List-Item>
+            </List>
+            <Divider size="small">个性化设置</Divider>
+            <List :split="false">
+                <list-item>
+                    <p style="width: 100%">侧边栏开启手风琴模式</p>
+                    <i-Switch slot="extra" size="small"/>
+                </list-item>
+                <list-item>
+                    <p style="width: 100%">固定侧边栏</p>
+                    <i-Switch slot="extra" size="small"/>
+                </list-item>
+                <list-item>
+                    <p style="width: 100%">显示重载页面按钮</p>
+                    <i-Switch slot="extra" size="small"/>
+                </list-item>
             </List>
         </Drawer>
     </template>

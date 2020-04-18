@@ -35,13 +35,13 @@ var vue = new Vue({
                     them_name: "dark",
                     content: '暗色侧边栏',
                     leftStyleClass: "theme_style on",
-                    url: "https://file.iviewui.com/admin-pro-dist/img/nav-theme-dark.da07f9c2.svg"
+                    url: "admin/images/nav-theme-dark.da07f9c2.svg"
                 },
                 {
                     them_name: "light",
                     content: '亮色侧边栏',
                     leftStyleClass: "theme_style",
-                    url: "https://file.iviewui.com/admin-pro-dist/img/nav-theme-light.262af236.svg"
+                    url: "admin/images/nav-theme-light.262af236.svg"
                 }
             ],
             topMainStyle: [/*顶部栏栏风格*/
@@ -49,19 +49,19 @@ var vue = new Vue({
                     them_name: "light",
                     content: '亮色顶栏',
                     topStyleClass: "theme_style on",
-                    url: "https://file.iviewui.com/admin-pro-dist/img/nav-theme-dark.da07f9c2.svg"
+                    url: "admin/images/nav-theme-dark.da07f9c2.svg"
                 },
                 {
                     them_name: "dark",
                     content: '暗色顶栏',
                     topStyleClass: "theme_style",
-                    url: "https://file.iviewui.com/admin-pro-dist/img/header-theme-dark.1606ed02.svg"
+                    url: "admin/images/header-theme-dark.1606ed02.svg"
                 },
                 {
                     them_name: "primary",
                     content: '主色顶栏',
                     topStyleClass: "theme_style",
-                    url: "https://file.iviewui.com/admin-pro-dist/img/header-theme-primary.babcd2f1.svg"
+                    url: "admin/images/header-theme-primary.babcd2f1.svg"
                 }
             ],
             top_style_theme: "light",/*top主题样式*/
